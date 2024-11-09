@@ -1,0 +1,78 @@
+import colorama
+from colorama import Fore
+colorama.init()
+
+usuario_cadastrado = None
+senha_cadastrada = None
+
+def SYSTEM():
+    print("-BEM-VINDO AO SISTEMA-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.CYAN + "Visite meu GitHub: https://github.com/GRFR5433")
+    print(Fore.YELLOW + "-"*40)
+    print("-TEMOS-")
+    
+
+def menu():
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.GREEN + "       -MENU PRINCIPAL-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.CYAN + "1. Fazer LOGIN")
+    print(Fore.CYAN + "2. Cadastrar")
+    print(Fore.CYAN + "3. Sair")
+    print(Fore.YELLOW + "-"*40)
+    escolha = input(Fore.WHITE + "Escolha uma opção: ")
+    
+    if escolha == '1':
+        LOGIN()
+    elif escolha == '2':
+        cadastrar()
+    elif escolha == '3':
+        print(Fore.GREEN + "Saindo... Até logo!")
+    else:
+        print(Fore.RED + "Opção inválida! Tente novamente.")
+        menu()
+
+def cadastrar():
+    global usuario_cadastrado, senha_cadastrada
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.GREEN + "       -CADASTRO-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.CYAN + "-Digite seu nome de usuario:")
+    print(Fore.YELLOW + "-"*40)
+    usuario_cadastrado = input(Fore.WHITE + "-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.CYAN + "-Digite sua senha:")
+    print(Fore.YELLOW + "-"*40)
+    senha_cadastrada = input(Fore.WHITE + "-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.GREEN + f"Cadastro realizado com sucesso, {usuario_cadastrado}!")
+    menu()
+
+def LOGIN():
+    global usuario_cadastrado, senha_cadastrada
+    if usuario_cadastrado is None or senha_cadastrada is None:
+        print(Fore.RED + "VOCÊ NÃO TEM CADASTRO!")
+        menu()
+        return
+    
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.GREEN + "       -LOGIN-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.CYAN + "-Digite seu nome de usuario:")
+    print(Fore.YELLOW + "-"*40)
+    nome = input(Fore.WHITE + "-")
+    print(Fore.YELLOW + "-"*40)
+    print(Fore.CYAN + "-Digite sua senha:")
+    print(Fore.YELLOW + "-"*40)
+    senha = input(Fore.WHITE + "-")
+    print(Fore.YELLOW + "-"*40)
+    
+    if nome == usuario_cadastrado and senha == senha_cadastrada:
+        print(Fore.GREEN + f"-LOGIN- Efetuado com sucesso!")
+    else:
+        print(Fore.RED + "Usuário ou senha incorretos!")
+        LOGIN()
+
+SYSTEM()
+menu()
