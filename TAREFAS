@@ -1,0 +1,95 @@
+import time
+import sys
+
+tarefas = []
+
+def typing_print(message, delay=0.05):
+for char in message:
+sys.stdout.write(char)
+sys.stdout.flush()
+time.sleep(delay)
+print()
+
+def loading_effect(action):
+typing_print(f"Carregando {action}...", 0.1)
+for _ in range(3):
+sys.stdout.write(".")
+sys.stdout.flush()
+time.sleep(0.5)
+print()
+
+def clear_previous_line():
+sys.stdout.write("\033[F\033[K") # Move o cursor para cima e limpa a linha
+
+def menu():
+while True:
+typing_print("Olá, seja bem-vindo à Lista de Tarefas")
+print("-" * 40)
+typing_print("- Opções:")
+typing_print("1 - Criar tarefa")
+typing_print("2 - Ver tarefas")
+typing_print("3 - Excluir tarefa")
+typing_print("4 - Sair do sistema")
+print("-" * 40)
+op = input("O que deseja escolher?: ")
+
+    match op:
+        case "1":
+            nome = input("Digite o nome da tarefa: ")
+            print("-" * 40)
+            typing_print("- Dificuldades -")
+            typing_print("FÁCIL")
+            typing_print("MÉDIO")
+            typing_print("DIFICIL")
+            typing_print("URGENTE")
+            dificuldade = input("Digite a dificuldade da tarefa: ")
+            data = input("Você deseja definir uma data para a tarefa (S/N)?: ")
+            if data in "S":
+                n = input("Defina a Data: ")
+                tarefa = {"nome": nome, "dificuldade": dificuldade, "data": n}
+                tarefas.append(tarefa)
+            elif data in "N":
+                tarefa = {"nome": nome, "dificuldade": dificuldade}
+                tarefas.append(tarefa)
+            loading_effect("tarefa")
+            clear_previous_line()
+            typing_print("Tarefa criada com sucesso!")
+            print("-" * 40)
+
+        case "2":
+            print("-" * 40)
+            if tarefas:
+                typing_print("Tarefas:")
+                for i, tarefa in enumerate(tarefas, start=1):
+                    tarefa_info = f"{i}. Nome: {tarefa['nome']}, Dificuldade: {tarefa['dificuldade']}"
+                    if 'data' in tarefa:
+                        tarefa_info += f", Data: {tarefa['data']}"
+                    typing_print(tarefa_info)
+            else:
+                typing_print("Nenhuma tarefa cadastrada.")
+            print("-" * 40)
+
+        case "3":
+            print("-" * 40)
+            if tarefas:
+                ver = input("Digite o número da tarefa que deseja excluir: ")
+                try:
+                    index = int(ver) - 1
+                    if 0 <= index < len(tarefas):
+                        loading_effect("exclusão")
+                        tarefas.pop(index)
+                        clear_previous_line()
+                        typing_print("Tarefa excluída com sucesso!")
+                    else:
+                        typing_print("Número de tarefa inválido.")
+                except ValueError:
+                    typing_print("Entrada inválida.")
+            else:
+                typing_print("Nenhuma tarefa cadastrada.")
+            print("-" * 40)
+
+        case "4":
+            typing_print("Saindo do sistema...")
+            print("-" * 40)
+            break
+menu()
