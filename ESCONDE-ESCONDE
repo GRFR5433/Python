@@ -1,0 +1,102 @@
+import random
+
+class JogoEscondeEsconde:
+    def __init__(self):
+        self.esconderijo = ["debaixo da cama", "no armário", "na cozinha", "no sofá", "no banheiro", "no sótão", "no porão"]
+
+    def iniciar_jogo(self):
+        print("Bem-vindo ao jogo de Esconde-Esconde!")
+        self.mostrar_instrucoes()
+
+    def mostrar_instrucoes(self):
+        instrucoes = (
+            "Instruções: O objetivo do jogo é se esconder sem ser encontrado!\n"
+            "Escolha um lugar para se esconder e evite ser pego pelo pegador.\n"
+            "No jogo, pode ser você ou a Ana que estará procurando ou se escondendo."
+        )
+        print(instrucoes)
+        
+        print("\nPressione Enter para continuar...")
+        self.aguardar_enter()
+        self.game()
+
+    def game(self):
+        pegador = random.choice(["você", "Ana"])
+        escondedor = "Ana" if pegador == "você" else "você"
+
+        print(f"\nO pegador será {pegador} e o escondedor será {escondedor}!\n")
+
+        if pegador == "você":
+            self.procurar_ana()
+        else:
+            self.se_esconder()
+
+    def procurar_ana(self):
+        print("\nOnde você acha que Ana está escondida?")
+        self.listar_esconderijos()
+
+        escolha = self.obter_escolha()
+
+        texto = f"\nVocê escolheu procurar em {escolha}.\n"
+        encontrou = random.choice([True, False])
+        if encontrou:
+            texto += f"Você encontrou Ana em {escolha}! Você foi o pegador e a pegou!"
+        else:
+            texto += f"Você não conseguiu encontrar Ana! Ela está bem escondida!"
+
+        self.mostrar_resultado(texto)
+
+    def se_esconder(self):
+        print("\nOnde você quer se esconder?")
+        self.listar_esconderijos()
+
+        escolha = self.obter_escolha()
+
+        texto = f"\nVocê se escondeu em {escolha}.\n"
+        encontrou = random.choice([True, False])
+        if encontrou:
+            texto += f"Ana encontrou você em {escolha}! Você foi pego!"
+        else:
+            texto += f"Ana não conseguiu te encontrar! Você ganhou!"
+
+        self.mostrar_resultado(texto)
+
+    def listar_esconderijos(self):
+        for i, lugar in enumerate(self.esconderijo, 1):
+            print(f"{i} - {lugar}")
+
+    def obter_escolha(self):
+        while True:
+            try:
+                escolha = int(input("\nEscolha o número do lugar: "))
+                if 1 <= escolha <= len(self.esconderijo):
+                    return self.esconderijo[escolha - 1]
+                else:
+                    print("Escolha inválida! Por favor, escolha um número de 1 a 7.")
+            except ValueError:
+                print("Por favor, insira um número válido.")
+
+    def mostrar_resultado(self, texto):
+        print("\n" + texto)
+        self.jogar_novamente()
+
+    def jogar_novamente(self):
+        jogar_novamente = input("\nDeseja jogar novamente? (s/n): ").strip().lower()
+        if jogar_novamente == "s":
+            self.iniciar_jogo()
+        else:
+            print("Obrigado por jogar! Até a próxima!")
+
+    def aguardar_enter(self):
+        while True:
+            tecla = input()
+            if tecla == '':
+                break
+
+def main():
+    jogo = JogoEscondeEsconde()
+    jogo.iniciar_jogo()
+
+if __name__ == "__main__":
+    main()
+
