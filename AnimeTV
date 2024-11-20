@@ -1,0 +1,62 @@
+import webbrowser
+
+animes = {
+    "Dragon Ball": "Saiyajin",
+    "One Piece": "Pirata que estica",
+    "Naruto": "Hokage",
+    "Blue Lock": "PNG"
+}
+
+def iniciar_anime(anime):
+    print(f"\nVocê iniciou o anime {anime}!")
+    
+    if anime == "Dragon Ball":
+        url = "https://www.youtube.com/watch?v=3ihxNAYNbwU"
+    elif anime == "One Piece":
+        url = "https://www.youtube.com/watch?v=mej18Qxunx0"
+    elif anime == "Naruto":
+        url = "https://www.youtube.com/watch?v=PBvgqTc2oBw"
+    elif anime == "Blue Lock":
+        url = "https://www.youtube.com/watch?v=TEPt4FQeTeI"
+    else:
+        print("Anime não disponível para assistir!")
+        return
+
+    webbrowser.open(url)
+    print("Reproduzindo vídeo... ")
+
+def menu():
+    print("\n--- Menu ---")
+    print("1. Deletar anime")
+    print("2. Assistir anime")
+    print("3. Sair")
+
+print("\nLista de animes:")
+for anime, descricao in animes.items():
+    print(f"{anime} ({descricao})")
+
+while True:
+    menu()
+    escolha = input("\nEscolha uma opção: ").strip()
+
+    if escolha == "1":
+        anime_to_delete = input("\nQual anime você deseja deletar? ").strip()
+        if anime_to_delete in animes:
+            del animes[anime_to_delete]
+            print(f"{anime_to_delete} foi deletado.")
+        else:
+            print("Anime não encontrado.")
+    
+    elif escolha == "2":
+        anime_to_watch = input("\nQual anime você deseja assistir? ").strip()
+        if anime_to_watch in animes:
+            iniciar_anime(anime_to_watch)
+        else:
+            print("Anime não encontrado.")
+    
+    elif escolha == "3":
+        print("Saindo...")
+        break
+    
+    else:
+        print("Opção inválida. Por favor, escolha uma opção entre 1 e 3.")
