@@ -1,0 +1,10 @@
+print("Bem-vindo, a calculadora de Juros!")
+print("-" * 40)
+
+P = float(input("Digite o valor principal: "))
+i = float(input("Digite a taxa de juros: "))
+t = int(input("Digite o atraso em meses: "))
+
+cálculo =  (P* i * t)
+valor = cálculo + P
+print(f"Valor final com juros: R${valor:.2f}")
