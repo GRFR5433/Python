@@ -12,7 +12,7 @@ notas = {
 "Daniel": 5.0,
 "Karol": 10.0,
 "Rayane": 6.0,
-"João Pedro": 7.0
+"João Pedro": 8.0
 }
 
 chamada = list(notas.keys())
