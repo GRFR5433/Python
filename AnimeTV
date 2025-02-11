@@ -1,9 +1,4 @@
 import webbrowser
-import time
-from rich.console import Console
-from rich.text import Text
-
-console = Console()
 
 animes = {
     "Dragon Ball": "Saiyajin",
@@ -12,41 +7,34 @@ animes = {
     "Blue Lock": "PNG"
 }
 
-def efeito_letras(texto, delay=0.05):
-    """Exibe o texto com efeito de digitação."""
-    for letra in texto:
-        print(letra, end='', flush=True)
-        time.sleep(delay)
-    print()
-
 def iniciar_anime(anime):
-    efeito_letras(f"\nVocê iniciou o anime {anime}!")
+    print(f"\nVocê iniciou o anime {anime}!")
     
-    if anime == "Dragon Ball":
-        url = "https://www.youtube.com/watch?v=3ihxNAYNbwU"
-    elif anime == "One Piece":
-        url = "https://www.youtube.com/watch?v=mej18Qxunx0"
-    elif anime == "Naruto":
-        url = "https://www.youtube.com/watch?v=PBvgqTc2oBw"
-    elif anime == "Blue Lock":
-        url = "https://www.youtube.com/watch?v=TEPt4FQeTeI"
-    else:
-        efeito_letras("Anime não disponível para assistir!")
-        return
+    urls = {
+        "Dragon Ball": "https://www.youtube.com/watch?v=3ihxNAYNbwU",
+        "One Piece": "https://www.youtube.com/watch?v=mej18Qxunx0",
+        "Naruto": "https://www.youtube.com/watch?v=PBvgqTc2oBw",
+        "Blue Lock": "https://www.youtube.com/watch?v=TEPt4FQeTeI"
+    }
 
-    efeito_letras("Abrindo link...")
-    webbrowser.open(url)
-    console.print("🎥 [green bold]Reproduzindo vídeo![/green bold] 🎥")
+    url = urls.get(anime)
+    if url:
+        print("Abrindo link...")
+        webbrowser.open(url)
+        print("🎥 Reproduzindo vídeo! 🎥")
+    else:
+        print("Anime não disponível para assistir!")
 
 def menu():
-    console.print("\n[bold cyan]--- Menu ---[/bold cyan]")
-    console.print("[1] [yellow]Deletar anime[/yellow]")
-    console.print("[2] [yellow]Assistir anime[/yellow]")
-    console.print("[3] [red]Sair[/red]")
+    print("\n--- Menu ---")
+    print("[1] Deletar anime")
+    print("[2] Assistir anime")
+    print("[3] Sair")
 
-console.print("\n[bold blue]Lista de animes:[/bold blue]")
+# Exibir a lista de animes
+print("\nLista de animes:")
 for anime, descricao in animes.items():
-    console.print(f"[bold magenta]{anime}[/bold magenta] ([italic]{descricao}[/italic])")
+    print(f"{anime} ({descricao})")
 
 while True:
     menu()
@@ -56,20 +44,20 @@ while True:
         anime_to_delete = input("\nQual anime você deseja deletar? ").strip()
         if anime_to_delete in animes:
             del animes[anime_to_delete]
-            efeito_letras(f"{anime_to_delete} foi deletado.")
+            print(f"{anime_to_delete} foi deletado.")
         else:
-            efeito_letras("Anime não encontrado.")
+            print("Anime não encontrado.")
     
     elif escolha == "2":
         anime_to_watch = input("\nQual anime você deseja assistir? ").strip()
         if anime_to_watch in animes:
             iniciar_anime(anime_to_watch)
         else:
-            efeito_letras("Anime não encontrado.")
+            print("Anime não encontrado.")
     
     elif escolha == "3":
-        efeito_letras("Saindo...", delay=0.1)
+        print("Saindo...")
         break
     
     else:
-        efeito_letras("Opção inválida. Por favor, escolha uma opção entre 1 e 3.")
+        print("Opção inválida. Por favor, escolha uma opção entre 1 e 3.")
