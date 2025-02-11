@@ -1,31 +1,16 @@
-from colorama import Fore
 import pandas as pd
-import colorama
-import time
-import sys
-
-def digitar(texto, cor=Fore.WHITE, delay=0.05):
-    for char in texto:
-        sys.stdout.write(cor + char)
-        sys.stdout.flush()
-        time.sleep(delay)
-    print()
-
-colorama.init()
-
-digitar("Vamos criar a sua Planilha!", Fore.LIGHTGREEN_EX)
 
 dados = {}
 
-num_colunas = int(input(Fore.CYAN + "Quantas colunas você deseja adicionar? "))
+num_colunas = int(input("Quantas colunas você deseja adicionar? "))
 for i in range(num_colunas):
-    titulo_coluna = input(Fore.CYAN + f"Digite o título da coluna {i+1}: ")
+    titulo_coluna = input(f"Digite o título da coluna {i+1}: ")
     dados[titulo_coluna] = []
 
 while True:
     linha = []
     for titulo in dados:
-        valor = input(Fore.CYAN + f"Digite o valor para '{titulo}' (ou pressione Enter para finalizar): ")
+        valor = input(f"Digite o valor para '{titulo}' (ou pressione Enter para finalizar): ")
         if valor == "":
             break
         linha.append(valor)
@@ -37,13 +22,13 @@ while True:
         break
 
 if any(dados.values()):
-    nome_arquivo = input(Fore.YELLOW + "Digite o nome do arquivo para salvar a planilha (ex: planilha.xlsx): ")
+    nome_arquivo = input("Digite o nome do arquivo para salvar a planilha (ex: planilha.xlsx): ")
     if not nome_arquivo.endswith(".xlsx"):
         nome_arquivo += ".xlsx"
     
-    digitar("Criando a sua planilha...", Fore.LIGHTMAGENTA_EX, 0.1)
+    print("Criando a sua planilha...")
     df = pd.DataFrame(dados)
     df.to_excel(nome_arquivo, index=False)
-    digitar(f"Planilha '{nome_arquivo}' criada com sucesso!", Fore.GREEN)
+    print(f"Planilha '{nome_arquivo}' criada com sucesso!")
 else:
-    digitar("Nenhum dado foi inserido. A planilha não foi criada.", Fore.RED)
+    print("Nenhum dado foi inserido. A planilha não foi criada.")
