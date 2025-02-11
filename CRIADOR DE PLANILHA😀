@@ -2,7 +2,7 @@ import pandas as pd
 
 dados = {}
 
-num_colunas = int(input("Quantas colunas você deseja adicionar? "))
+colunas = int(input("Quantas colunas você deseja adicionar? "))
 for i in range(num_colunas):
     titulo_coluna = input(f"Digite o título da coluna {i+1}: ")
     dados[titulo_coluna] = []
