@@ -1,125 +1,89 @@
 import time
 
-BLUE = "\033[94m"
-CYAN = "\033[96m"
-RED = "\033[91m"
-YELLOW = "\033[93m"
-RESET = "\033[0m"
-
 notas = {
-"Guilherme Rhyan": 9.0,
-"Carol": 6.0,
-"Daniel": 5.0,
-"Karol": 10.0,
-"Rayane": 6.0,
-"João Pedro": 8.0
+    "Guilherme Rhyan": 9.0,
+    "Carol": 6.0,
+    "Daniel": 5.0,
+    "Karol": 10.0,
+    "Rayane": 6.0,
+    "João Pedro": 8.0
 }
 
 chamada = list(notas.keys())
 
-def mostrar_titulo():
-print(f"{BLUE}")
-print(" GUI+EDUCA ")
-print(f"{RESET}")
+def animar_mensagem(mensagem, delay=0.05):
+    for char in mensagem:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
 
 def mostrar_chamada():
-print(f"{CYAN}Bem-vindo ao sistema GUI+EDUCA!{RESET}")
-print(f"{YELLOW}Nosso sistema operacional escolar{RESET}")
-print("Qual aluno deseja chamar (de acordo com a chamada)?")
-print("-" * 40)
-for i, aluno in enumerate(chamada, start=1):
-print(f"{i}. {aluno}")
-print("-" * 40)
+    print("Bem-vindo ao sistema GUI+EDUCA!")
+    print("Nosso sistema operacional escolar")
+    print("Qual aluno deseja chamar (de acordo com a chamada)?")
+    for i, aluno in enumerate(chamada, start=1):
+        print(f"{i}. {aluno}")
 
 def calcular_media_geral():
-media_geral = sum(notas.values()) / len(notas)
-animar_mensagem(f"{CYAN}A média geral da turma é: {media_geral:.2f}{RESET}")
+    media_geral = sum(notas.values()) / len(notas)
+    print(f"A média geral da turma é: {media_geral:.2f}")
 
 def listar_alunos_acima_da_media(media_limite):
-alunos_acima = [aluno for aluno, nota in notas.items() if nota > media_limite]
-if alunos_acima:
-animar_mensagem(f"{CYAN}Alunos com notas acima de {media_limite}: {', '.join(alunos_acima)}{RESET}")
-else:
-animar_mensagem(f"{RED}Nenhum aluno acima da média de {media_limite}.{RESET}")
+    alunos_acima = [aluno for aluno, nota in notas.items() if nota > media_limite]
+    if alunos_acima:
+        print(f"Alunos com notas acima de {media_limite}: {', '.join(alunos_acima)}")
+    else:
+        print(f"Nenhum aluno acima da média de {media_limite}.")
 
 def mudar_nota(aluno):
-try:
-nova_nota = float(input(f"{YELLOW}Digite a nova nota para {aluno}: {RESET}"))
-if 0 <= nova_nota <= 10:
-notas[aluno] = nova_nota
-animar_mensagem(f"{CYAN}Nota de {aluno} atualizada para {nova_nota:.2f}{RESET}")
-else:
-print(f"{RED}Nota inválida! A nota deve estar entre 0 e 10.{RESET}")
-except ValueError:
-print(f"{RED}Por favor, insira um número válido.{RESET}")
-
-def animar_mensagem(mensagem, delay=0.05):
-for char in mensagem:
-print(char, end='', flush=True)
-time.sleep(delay)
-print()
+    try:
+        nova_nota = float(input(f"Digite a nova nota para {aluno}: "))
+        if 0 <= nova_nota <= 10:
+            notas[aluno] = nova_nota
+            print(f"Nota de {aluno} atualizada para {nova_nota:.2f}")
+        else:
+            print("Nota inválida! A nota deve estar entre 0 e 10.")
+    except ValueError:
+        print("Por favor, insira um número válido.")
 
 while True:
-selecionados = []
-
-while True:
-    mostrar_titulo()
     mostrar_chamada()
     try:
-        op = int(input(f"{BLUE}- {RESET}"))
+        op = int(input("Escolha uma opção: "))
         if 1 <= op <= len(chamada):
             aluno_escolhido = chamada[op - 1]
-            selecionados.append(aluno_escolhido)
-            animar_mensagem(f"{CYAN}Escolhido: {aluno_escolhido}{RESET}")
+            print(f"Escolhido: {aluno_escolhido}")
         else:
-            print(f"{RED}Opção inválida!{RESET}")
+            print("Opção inválida!")
     except ValueError:
-        print(f"{RED}Por favor, insira um número válido.{RESET}")
+        print("Por favor, insira um número válido.")
 
-    continuar = input(f"{YELLOW}Deseja chamar outro aluno? (s/n): {RESET}").strip().lower()
+    continuar = input("Deseja chamar outro aluno? (s/n): ").strip().lower()
     if continuar != 's':
         break
 
-if selecionados:
-    print("\nAlunos selecionados:")
-    for aluno in selecionados:
-        print(f"- {aluno}")
+    acao = input(f"O que deseja fazer com {aluno_escolhido}?\n1. Chamar os pais\n2. Ver Média\n3. Mudar Nota\nEscolha: ")
+    if acao == '1':
+        print(f"Chamando os pais de {aluno_escolhido}...")
+    elif acao == '2':
+        print(f"A média de {aluno_escolhido} é: {notas[aluno_escolhido]}")
+    elif acao == '3':
+        mudar_nota(aluno_escolhido)
+    else:
+        print("Opção inválida!")
 
-    for aluno in selecionados:
-        print(f"\nO que deseja fazer com {aluno}?")
-        print("1. Chamar os pais")
-        print("2. Ver Média")
-        print("3. Mudar Nota")
-        acao = input(f"- {RESET}")
-
-        if acao == '1':
-            animar_mensagem(f"{CYAN}Chamando os pais de {aluno}...{RESET}")
-        elif acao == '2':
-            media = notas[aluno]  
-            animar_mensagem(f"{CYAN}A média de {aluno} é: {media}{RESET}")
-        elif acao == '3':
-            mudar_nota(aluno)
-        else:
-            print(f"{RED}Opção inválida!{RESET}")
-
-while True:
-    print("\nDeseja fazer outra ação?")
-    print("1. Ver Média Geral da Turma")
-    print("2. Listar Alunos Acima de uma Média")
-    print("3. Voltar ao início")
-    print("4. Sair")
-    acao_adicional = input(f"- {RESET}")
+    acao_adicional = input("\nDeseja fazer outra ação?\n1. Ver Média Geral da Turma\n2. Listar Alunos Acima de uma Média\n3. Voltar\n4. Sair\nEscolha: ")
 
     if acao_adicional == '1':
         calcular_media_geral()
     elif acao_adicional == '2':
-        media_limite = float(input(f"{YELLOW}Digite a média limite: {RESET}"))
+        media_limite = float(input("Digite a média limite: "))
         listar_alunos_acima_da_media(media_limite)
     elif acao_adicional == '3':
-        animar_mensagem(f"{CYAN}Voltando ao início...{RESET}")
-        break 
+        continue
     elif acao_adicional == '4':
-        animar_mensagem(f"{CYAN}Obrigado por usar o sistema!{RESET}")
-        exit()  
+        print("Obrigado por usar o sistema!")
+        break
     else:
-        print(f"{RED}Opção inválida!{RESET}")
+        print("Opção inválida!")
+
