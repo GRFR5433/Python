@@ -1,65 +1,62 @@
-import re
 import random
-from colorama import Fore, Style, init
+import re
 
-init(autoreset=True)
+print("Olá, bem-vindo ao Bingo da Paróquia Santa Fé!")
+print("-" * 40)
 
-print(Fore.YELLOW + "Olá, bem-vindo ao Bingo da Paróquia Santa Fé!")
-print(Fore.YELLOW + "-" * 40)
-
-nome = input(Fore.CYAN + "Digite o nome da pessoa que vai participar: ").strip().split()[:2]
+nome = input("Digite o nome da pessoa que vai participar: ").strip().split()[:2]
 nome = " ".join(nome).title()
-print(Fore.YELLOW + "-" * 40)
+print("-" * 40)
 
 while True:
-cidade = input(Fore.CYAN + "Digite a cidade (Barbalha, Juazeiro do Norte, Crato): ").strip().title()
-if cidade in ["Barbalha", "Juazeiro Do Norte", "Crato"]:
-break
-else:
-print(Fore.RED + "Cidade inválida! Digite apenas uma das cidades permitidas.")
+    cidade = input("Digite a cidade (Barbalha, Juazeiro do Norte, Crato): ").strip().title()
+    if cidade in ["Barbalha", "Juazeiro Do Norte", "Crato"]:
+        break
+    else:
+        print("Cidade inválida! Digite apenas uma das cidades permitidas.")
 
-print(Fore.YELLOW + "-" * 40)
-
-while True:
-número = input(Fore.CYAN + "Digite o número de telefone do participante (apenas números): ").strip()
-if re.fullmatch(r'\d{10,11}', número):
-if len(número) == 10:
-número = f"({número[:2]}) {número[2:6]}-{número[6:]}"
-else:
-número = f"({número[:2]}) {número[2:7]}-{número[7:]}"
-break
-else:
-print(Fore.RED + "Número inválido! Digite um número com 10 ou 11 dígitos.")
-
-print(Fore.YELLOW + "-" * 40)
-print(Fore.YELLOW + f"Participante: {nome} | Cidade: {cidade} | Número: {número}")
-print(Fore.YELLOW + "-" * 40)
-print(Fore.YELLOW + "Participante cadastrado com sucesso 😃👍")
-print(Fore.YELLOW + "-" * 40)
+print("-" * 40)
 
 while True:
-escolha = input(Fore.CYAN + "Deseja uma cartela aleatória ou quer digitar os próprios números? (A para Aleatória / D para Digitar): ").strip().upper()
-if escolha == 'A':
-cartela = random.sample(range(1, 101), 10)
-break
-elif escolha == 'D':
-cartela = []
-while len(cartela) < 10:
-try:
-número_cartela = int(input(Fore.CYAN + f"Digite o número {len(cartela) + 1} da cartela (entre 1 e 100): "))
-if 1 <= número_cartela <= 100 and número_cartela not in cartela:
-cartela.append(número_cartela)
-else:
-print(Fore.RED + "Número inválido ou já inserido! Digite um número único entre 1 e 100.")
-except ValueError:
-print(Fore.RED + "Entrada inválida! Por favor, digite um número entre 1 e 100.")
-break
-else:
-print(Fore.RED + "Opção inválida! Digite 'A' para Aleatória ou 'D' para Digitar.")
+    número = input("Digite o número de telefone do participante (apenas números): ").strip()
+    if re.fullmatch(r'\d{10,11}', número):
+        if len(número) == 10:
+            número = f"({número[:2]}) {número[2:6]}-{número[6:]}"
+        else:
+            número = f"({número[:2]}) {número[2:7]}-{número[7:]}"
+        break
+    else:
+        print("Número inválido! Digite um número com 10 ou 11 dígitos.")
 
-print(Fore.YELLOW + "-" * 40)
-print(Fore.BLUE + "Cartela do Bingo:")
-print(Fore.MAGENTA + " | ".join(map(str, cartela)))
-print(Fore.YELLOW + "-" * 40)
-print(Fore.GREEN + "Cadastro concluído! Tenha boa sorte no sorteio!")
-print(Fore.YELLOW + "-" * 40)
+print("-" * 40)
+print(f"Participante: {nome} | Cidade: {cidade} | Número: {número}")
+print("-" * 40)
+print("Participante cadastrado com sucesso 😃👍")
+print("-" * 40)
+
+while True:
+    escolha = input("Deseja uma cartela aleatória ou quer digitar os próprios números? (A para Aleatória / D para Digitar): ").strip().upper()
+    if escolha == 'A':
+        cartela = random.sample(range(1, 101), 10)
+        break
+    elif escolha == 'D':
+        cartela = []
+        while len(cartela) < 10:
+            try:
+                número_cartela = int(input(f"Digite o número {len(cartela) + 1} da cartela (entre 1 e 100): "))
+                if 1 <= número_cartela <= 100 and número_cartela not in cartela:
+                    cartela.append(número_cartela)
+                else:
+                    print("Número inválido ou já inserido! Digite um número único entre 1 e 100.")
+            except ValueError:
+                print("Entrada inválida! Por favor, digite um número entre 1 e 100.")
+        break
+    else:
+        print("Opção inválida! Digite 'A' para Aleatória ou 'D' para Digitar.")
+
+print("-" * 40)
+print("Cartela do Bingo:")
+print(" | ".join(map(str, cartela)))
+print("-" * 40)
+print("Cadastro concluído! Tenha boa sorte no sorteio!")
+print("-" * 40)
