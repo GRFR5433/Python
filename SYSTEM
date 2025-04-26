@@ -4,122 +4,79 @@ import hashlib
 
 colorama.init()
 
-usuario_cadastrado = None
-senha_cadastrada = None
+usuario = None
+senha = None
 
-def criptografar_senha(senha):
-    return hashlib.sha256(senha.encode()).hexdigest()
+def criptografar(texto):
+    return hashlib.sha256(texto.encode()).hexdigest()
 
-def SYSTEM():
-    print("-BEM-VINDO AO SISTEMA-")
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.CYAN + "Visite meu GitHub: https://github.com/GRFR5433")
-    
-
-def menu():
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.GREEN + "       -MENU PRINCIPAL-")
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.CYAN + "1. Fazer LOGIN")
-    print(Fore.CYAN + "2. Cadastrar")
-    print(Fore.CYAN + "3. Sair")
-    print(Fore.YELLOW + "-"*40)
-    escolha = input(Fore.WHITE + "Escolha uma opção: ")
-    
-    if escolha == '1':
-        LOGIN()
-    elif escolha == '2':
-        cadastrar()
-    elif escolha == '3':
-        print(Fore.GREEN + "Saindo... Até logo!")
-    else:
-        print(Fore.RED + "Opção inválida! Tente novamente.")
-        menu()
-
-def cadastrar():
-    global usuario_cadastrado, senha_cadastrada
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.GREEN + "       -CADASTRO-")
-    print(Fore.YELLOW + "-"*40)
-    
-    while True:
-        usuario_cadastrado = input(Fore.CYAN + "-Digite seu nome de usuario: ")
-        if len(usuario_cadastrado) < 3:
-            print(Fore.RED + "Nome de usuário muito curto. Tente novamente.")
-        else:
-            break
-    
-    while True:
-        senha_cadastrada = input(Fore.CYAN + "-Digite sua senha: ")
-        if len(senha_cadastrada) < 6:
-            print(Fore.RED + "Senha muito curta. A senha deve ter pelo menos 6 caracteres.")
-        else:
-            break
-    
-    senha_cadastrada = criptografar_senha(senha_cadastrada)
-    
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.GREEN + f"Cadastro realizado com sucesso, {usuario_cadastrado}!")
-    menu()
-
-def LOGIN():
-    global usuario_cadastrado, senha_cadastrada
-    if usuario_cadastrado is None or senha_cadastrada is None:
-        print(Fore.RED + "VOCÊ NÃO TEM CADASTRO!")
-        menu()
-        return
-    
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.GREEN + "       -LOGIN-")
-    print(Fore.YELLOW + "-"*40)
-    
-    nome = input(Fore.CYAN + "-Digite seu nome de usuario: ")
-    senha = input(Fore.CYAN + "-Digite sua senha: ")
-    
-    senha = criptografar_senha(senha)
-    
-    if nome == usuario_cadastrado and senha == senha_cadastrada:
-        print(Fore.GREEN + "-LOGIN- Efetuado com sucesso!")
-        MENU_APOS_LOGIN()
-    else:
-        print(Fore.RED + "Usuário ou senha incorretos!")
-        LOGIN()
-
-def MENU_APOS_LOGIN():
-    SYSTEM() 
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.GREEN + "       -SISTEMA-")
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.CYAN + "1. Alterar Senha")
+def sistema():
+    print(Fore.YELLOW + "-"*30)
+    print(Fore.GREEN + "Você entrou no sistema!")
+    print(Fore.YELLOW + "-"*30)
+    print(Fore.CYAN + "1. Alterar senha")
     print(Fore.CYAN + "2. Sair")
-    print(Fore.YELLOW + "-"*40)
-    
-    escolha = input(Fore.WHITE + "Escolha uma opção: ")
-    
-    if escolha == '1':
+    escolha = input(Fore.WHITE + "Escolha: ")
+
+    if escolha == "1":
         alterar_senha()
-    elif escolha == '2':
-        print(Fore.GREEN + "Saindo... Até logo!")
+    elif escolha == "2":
+        print(Fore.GREEN + "Saindo...")
     else:
-        print(Fore.RED + "Opção inválida! Tente novamente.")
-        MENU_APOS_LOGIN()
+        print(Fore.RED + "Opção inválida.")
+        sistema()
 
 def alterar_senha():
-    global senha_cadastrada
-    print(Fore.YELLOW + "-"*40)
-    print(Fore.GREEN + "       -ALTERAR SENHA-")
-    print(Fore.YELLOW + "-"*40)
-    
-    nova_senha = input(Fore.CYAN + "Digite sua nova senha: ")
-    
-    if len(nova_senha) < 6:
-        print(Fore.RED + "Senha muito curta. A senha deve ter pelo menos 6 caracteres.")
+    global senha
+    nova = input(Fore.CYAN + "Nova senha: ")
+    if len(nova) < 6:
+        print(Fore.RED + "Senha muito curta.")
         alterar_senha()
     else:
-        senha_cadastrada = criptografar_senha(nova_senha)
-        print(Fore.GREEN + "Senha alterada com sucesso!")
-        MENU_APOS_LOGIN()
+        senha = criptografar(nova)
+        print(Fore.GREEN + "Senha alterada!")
+        sistema()
 
+def menu():
+    global usuario, senha
+    while True:
+        print(Fore.YELLOW + "-"*30)
+        print(Fore.GREEN + "Menu Principal")
+        print(Fore.YELLOW + "-"*30)
+        print(Fore.CYAN + "1. Cadastrar")
+        print(Fore.CYAN + "2. Login")
+        print(Fore.CYAN + "3. Sair")
+        escolha = input(Fore.WHITE + "Escolha: ")
+
+        if escolha == "1":
+            usuario = input(Fore.CYAN + "Usuário: ")
+            senha_texto = input(Fore.CYAN + "Senha (mínimo 6 letras): ")
+            if len(usuario) < 3 or len(senha_texto) < 6:
+                print(Fore.RED + "Usuário ou senha muito curtos.")
+            else:
+                senha = criptografar(senha_texto)
+                print(Fore.GREEN + "Cadastro feito!")
+
+        elif escolha == "2":
+            if usuario is None:
+                print(Fore.RED + "Nenhum usuário cadastrado.")
+                continue
+
+            nome = input(Fore.CYAN + "Usuário: ")
+            senha_login = input(Fore.CYAN + "Senha: ")
+            senha_login = criptografar(senha_login)
+
+            if nome == usuario and senha_login == senha:
+                print(Fore.GREEN + "Login feito!")
+                sistema()
+            else:
+                print(Fore.RED + "Usuário ou senha incorretos.")
+
+        elif escolha == "3":
+            print(Fore.GREEN + "Saindo...")
+            break
+        else:
+            print(Fore.RED + "Opção inválida.")
 
 menu()
-
+       
