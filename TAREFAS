@@ -1,65 +1,66 @@
-tarefas = []
+ tarefas = []
 
 def menu():
     while True:
-        print("Olá, seja bem-vindo à Lista de Tarefas")
-        print("-" * 40)
-        print("1 - Criar tarefa")
-        print("2 - Ver tarefas")
-        print("3 - Excluir tarefa")
-        print("4 - Sair do sistema")
-        print("-" * 40)
-        op = input("O que deseja escolher?: ")
+        print("Bem-vindo à Lista de Tarefas!")
+        print("-" * 30)
+        print("1 - Adicionar tarefa")
+        print("2 - Mostrar tarefas")
+        print("3 - Remover tarefa")
+        print("4 - Sair")
+        print("-" * 30)
 
-        if op == "1":
-            nome = input("Digite o nome da tarefa: ")
-            print("-" * 40)
-            print("Dificuldades: FÁCIL, MÉDIO, DIFICIL, URGENTE")
-            dificuldade = input("Digite a dificuldade da tarefa: ")
-            data = input("Você deseja definir uma data para a tarefa (S/N)?: ")
-            if data.upper() == "S":
-                n = input("Defina a Data: ")
-                tarefa = {"nome": nome, "dificuldade": dificuldade, "data": n}
-                tarefas.append(tarefa)
+        escolha = input("Digite sua escolha: ")
+
+        if escolha == "1":
+            nome = input("Nome da tarefa: ")
+            dificuldade = input("Dificuldade (Fácil, Médio, Difícil, Urgente): ")
+            tem_data = input("Quer colocar uma data? (S/N): ")
+
+            if tem_data.upper() == "S":
+                data = input("Digite a data: ")
+                tarefa = {"nome": nome, "dificuldade": dificuldade, "data": data}
             else:
                 tarefa = {"nome": nome, "dificuldade": dificuldade}
-                tarefas.append(tarefa)
-            print("-" * 40)
-            print("Tarefa criada com sucesso!")
+            
+            tarefas.append(tarefa)
+            print("Tarefa adicionada!")
 
-        elif op == "2":
-            print("-" * 40)
+        elif escolha == "2":
+            print("-" * 30)
             if tarefas:
-                print("Tarefas:")
                 for i, tarefa in enumerate(tarefas, start=1):
-                    tarefa_info = f"{i}. Nome: {tarefa['nome']}, Dificuldade: {tarefa['dificuldade']}"
-                    if 'data' in tarefa:
-                        tarefa_info += f", Data: {tarefa['data']}"
-                    print(tarefa_info)
-            else:
-                print("Nenhuma tarefa cadastrada.")
-            print("-" * 40)
-
-        elif op == "3":
-            print("-" * 40)
-            if tarefas:
-                ver = input("Digite o número da tarefa que deseja excluir: ")
-                try:
-                    index = int(ver) - 1
-                    if 0 <= index < len(tarefas):
-                        tarefas.pop(index)
-                        print("Tarefa excluída com sucesso!")
+                    print(f"{i}. {tarefa['nome']} - {tarefa['dificuldade']}", end="")
+                    if "data" in tarefa:
+                        print(f" - {tarefa['data']}")
                     else:
-                        print("Número de tarefa inválido.")
-                except ValueError:
-                    print("Entrada inválida.")
+                        print()
             else:
                 print("Nenhuma tarefa cadastrada.")
-            print("-" * 40)
+            print("-" * 30)
 
-        elif op == "4":
-            print("Saindo do sistema...")
-            print("-" * 40)
+        elif escolha == "3":
+            print("-" * 30)
+            if tarefas:
+                num = input("Digite o número da tarefa para remover: ")
+                if num.isdigit():
+                    num = int(num)
+                    if 1 <= num <= len(tarefas):
+                        tarefas.pop(num - 1)
+                        print("Tarefa removida!")
+                    else:
+                        print("Número inválido.")
+                else:
+                    print("Digite apenas números.")
+            else:
+                print("Nenhuma tarefa cadastrada.")
+            print("-" * 30)
+
+        elif escolha == "4":
+            print("Saindo... Até logo!")
             break
+
+        else:
+            print("Opção inválida, tente de novo.")
 
 menu()
