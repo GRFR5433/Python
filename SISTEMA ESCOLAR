@@ -1,5 +1,3 @@
-import time
-
 notas = {
     "Guilherme Rhyan": 9.0,
     "Carol": 6.0,
@@ -9,81 +7,85 @@ notas = {
     "João Pedro": 8.0
 }
 
-chamada = list(notas.keys())
+alunos = list(notas.keys())
 
-def animar_mensagem(mensagem, delay=0.05):
-    for char in mensagem:
-        print(char, end='', flush=True)
-        time.sleep(delay)
-    print()
+def mostrar_alunos():
+    print("Alunos:")
+    for i, nome in enumerate(alunos, start=1):
+        print(f"{i}. {nome}")
 
-def mostrar_chamada():
-    print("Bem-vindo ao sistema GUI+EDUCA!")
-    print("Nosso sistema operacional escolar")
-    print("Qual aluno deseja chamar (de acordo com a chamada)?")
-    for i, aluno in enumerate(chamada, start=1):
-        print(f"{i}. {aluno}")
+def media_turma():
+    total = sum(notas.values())
+    media = total / len(notas)
+    print(f"Média da turma: {media:.2f}")
 
-def calcular_media_geral():
-    media_geral = sum(notas.values()) / len(notas)
-    print(f"A média geral da turma é: {media_geral:.2f}")
+def alunos_acima(media_base):
+    for nome, nota in notas.items():
+        if nota > media_base:
+            print(f"{nome} - {nota}")
 
-def listar_alunos_acima_da_media(media_limite):
-    alunos_acima = [aluno for aluno, nota in notas.items() if nota > media_limite]
-    if alunos_acima:
-        print(f"Alunos com notas acima de {media_limite}: {', '.join(alunos_acima)}")
-    else:
-        print(f"Nenhum aluno acima da média de {media_limite}.")
-
-def mudar_nota(aluno):
-    try:
-        nova_nota = float(input(f"Digite a nova nota para {aluno}: "))
-        if 0 <= nova_nota <= 10:
-            notas[aluno] = nova_nota
-            print(f"Nota de {aluno} atualizada para {nova_nota:.2f}")
+def mudar_nota(nome):
+    nova = input(f"Nova nota para {nome}: ")
+    if nova.replace(".", "", 1).isdigit():
+        nova = float(nova)
+        if 0 <= nova <= 10:
+            notas[nome] = nova
+            print("Nota atualizada!")
         else:
-            print("Nota inválida! A nota deve estar entre 0 e 10.")
-    except ValueError:
-        print("Por favor, insira um número válido.")
+            print("Nota fora do limite (0 a 10).")
+    else:
+        print("Nota inválida.")
 
 while True:
-    mostrar_chamada()
-    try:
-        op = int(input("Escolha uma opção: "))
-        if 1 <= op <= len(chamada):
-            aluno_escolhido = chamada[op - 1]
-            print(f"Escolhido: {aluno_escolhido}")
+    mostrar_alunos()
+    escolha = input("Escolha um aluno (número): ")
+
+    if escolha.isdigit():
+        escolha = int(escolha)
+        if 1 <= escolha <= len(alunos):
+            aluno = alunos[escolha - 1]
+            print(f"Aluno escolhido: {aluno}")
         else:
-            print("Opção inválida!")
-    except ValueError:
-        print("Por favor, insira um número válido.")
-
-    continuar = input("Deseja chamar outro aluno? (s/n): ").strip().lower()
-    if continuar != 's':
-        break
-
-    acao = input(f"O que deseja fazer com {aluno_escolhido}?\n1. Chamar os pais\n2. Ver Média\n3. Mudar Nota\nEscolha: ")
-    if acao == '1':
-        print(f"Chamando os pais de {aluno_escolhido}...")
-    elif acao == '2':
-        print(f"A média de {aluno_escolhido} é: {notas[aluno_escolhido]}")
-    elif acao == '3':
-        mudar_nota(aluno_escolhido)
+            print("Número inválido.")
+            continue
     else:
-        print("Opção inválida!")
-
-    acao_adicional = input("\nDeseja fazer outra ação?\n1. Ver Média Geral da Turma\n2. Listar Alunos Acima de uma Média\n3. Voltar\n4. Sair\nEscolha: ")
-
-    if acao_adicional == '1':
-        calcular_media_geral()
-    elif acao_adicional == '2':
-        media_limite = float(input("Digite a média limite: "))
-        listar_alunos_acima_da_media(media_limite)
-    elif acao_adicional == '3':
+        print("Digite apenas números.")
         continue
-    elif acao_adicional == '4':
-        print("Obrigado por usar o sistema!")
+
+    print("O que deseja fazer?")
+    print("1 - Chamar os pais")
+    print("2 - Ver média")
+    print("3 - Mudar nota")
+    acao = input("Escolha: ")
+
+    if acao == "1":
+        print(f"Chamando os pais de {aluno}...")
+    elif acao == "2":
+        print(f"A média de {aluno} é {notas[aluno]}")
+    elif acao == "3":
+        mudar_nota(aluno)
+    else:
+        print("Opção inválida.")
+
+    print("Quer fazer outra coisa?")
+    print("1 - Ver média geral da turma")
+    print("2 - Listar alunos acima de uma média")
+    print("3 - Continuar")
+    print("4 - Sair")
+    opcao = input("Escolha: ")
+
+    if opcao == "1":
+        media_turma()
+    elif opcao == "2":
+        base = input("Digite a média limite: ")
+        if base.replace(".", "", 1).isdigit():
+            alunos_acima(float(base))
+        else:
+            print("Número inválido.")
+    elif opcao == "3":
+        continue
+    elif opcao == "4":
+        print("Saindo...")
         break
     else:
-        print("Opção inválida!")
-
+        print("Opção inválida.")
