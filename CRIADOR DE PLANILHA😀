@@ -2,33 +2,29 @@ import pandas as pd
 
 dados = {}
 
-colunas = int(input("Quantas colunas você deseja adicionar? "))
+num_colunas = int(input("Quantas colunas você quer? "))
+
 for i in range(num_colunas):
-    titulo_coluna = input(f"Digite o título da coluna {i+1}: ")
-    dados[titulo_coluna] = []
+    nome_coluna = input(f"Nome da coluna {i+1}: ")
+    dados[nome_coluna] = []
 
-while True:
-    linha = []
-    for titulo in dados:
-        valor = input(f"Digite o valor para '{titulo}' (ou pressione Enter para finalizar): ")
-        if valor == "":
-            break
-        linha.append(valor)
+continuar = "s"
+
+while continuar.lower() == "s":
+    for coluna in dados:
+        valor = input(f"Digite o valor para {coluna}: ")
+        dados[coluna].append(valor)
     
-    if linha:
-        for i, titulo in enumerate(dados):
-            dados[titulo].append(linha[i])
-    else:
-        break
+    continuar = input("Deseja adicionar outra linha? (s/n): ")
 
-if any(dados.values()):
-    nome_arquivo = input("Digite o nome do arquivo para salvar a planilha (ex: planilha.xlsx): ")
+if len(dados[list(dados.keys())[0]]) > 0:
+    nome_arquivo = input("Nome do arquivo (ex: arquivo.xlsx): ")
+    
     if not nome_arquivo.endswith(".xlsx"):
         nome_arquivo += ".xlsx"
     
-    print("Criando a sua planilha...")
-    df = pd.DataFrame(dados)
-    df.to_excel(nome_arquivo, index=False)
-    print(f"Planilha '{nome_arquivo}' criada com sucesso!")
+    tabela = pd.DataFrame(dados)
+    tabela.to_excel(nome_arquivo, index=False)
+    print("Arquivo criado com sucesso!")
 else:
-    print("Nenhum dado foi inserido. A planilha não foi criada.")
+    print("Nenhum dado foi inserido.")
