@@ -1,0 +1,6 @@
+nomes = ["guilherme", "joão", "pedro", "Manuela"]
+
+for nome in nomes:
+    for letra in nome:
+        print(letra)
+    print("------")  
